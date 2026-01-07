@@ -1,0 +1,15 @@
+dataset,has_schema,ok,missing_cols,extra_cols
+7b-USYCkQvy_lEmApJL8Pg_c340efec81fd455384064564678892f1_CO2-Dataset.xlsx,FALSE,FALSE,NA,NA
+car_sales_data_sample_one.csv,FALSE,FALSE,NA,NA
+car_sales_data_sample.csv,FALSE,FALSE,NA,NA
+car_sales_data_sample.xlsx,FALSE,FALSE,NA,NA
+CarSalesByModelStart.xlsx,FALSE,FALSE,NA,NA
+ChicagoCensusData.CSV.csv,FALSE,FALSE,NA,NA
+ChicagoCrimeData.CSV.csv,FALSE,FALSE,NA,NA
+ChicagoPublicSchools.CSV.csv,FALSE,FALSE,NA,NA
+CO2 Dataset.xlsx,FALSE,FALSE,NA,NA
+date.xlsx,FALSE,FALSE,NA,NA
+Energy data.xlsx,FALSE,FALSE,NA,NA
+gdptotal.xlsx,FALSE,FALSE,NA,NA
+sample_data.csv,FALSE,FALSE,NA,NA
+totalpopulation.xlsx,FALSE,FALSE,NA,NA

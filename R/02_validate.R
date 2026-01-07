@@ -1,4 +1,9 @@
 # R/02_validate.R
+schema_path_for <- function(dataset_filename, contracts_dir = "contracts") {
+  base <- tools::file_path_sans_ext(basename(dataset_filename))
+  file.path(contracts_dir, paste0(base, ".schema.yml"))
+}
+
 
 infer_type <- function(x) {
   if (inherits(x, "Date")) return("date")
@@ -7,6 +12,7 @@ infer_type <- function(x) {
   if (is.logical(x)) return("logical")
   "string"
 }
+
 
 validate_against_schema <- function(df, schema_path) {
   schema <- yaml::read_yaml(schema_path)
@@ -37,4 +43,31 @@ validate_against_schema <- function(df, schema_path) {
     extra_cols = extra_cols,
     type_issues = type_issues
   )
+}
+
+validate_all <- function(ingested_tbl, contracts_dir = "contracts") {
+  ingested_tbl |>
+    dplyr::mutate(
+      schema_path = purrr::map_chr(dataset, schema_path_for, contracts_dir = contracts_dir),
+      has_schema  = file.exists(schema_path),
+      validation  = purrr::map2(data, schema_path, \(df, sp) {
+        if (!file.exists(sp)) return(list(ok = NA, missing_cols = NA, extra_cols = NA, type_issues = tibble::tibble()))
+        validate_against_schema(df, sp)
+      })
+    )
+}
+
+write_validation_summary <- function(validated_tbl, out_path = "output/validation/validation_summary.csv") {
+  dir.create(dirname(out_path), recursive = TRUE, showWarnings = FALSE)
+
+  summary <- validated_tbl |>
+    dplyr::mutate(
+      ok = purrr::map_lgl(validation, ~ isTRUE(.x$ok)),
+      missing_cols = purrr::map_chr(validation, ~ paste(.x$missing_cols, collapse = "; ")),
+      extra_cols   = purrr::map_chr(validation, ~ paste(.x$extra_cols, collapse = "; "))
+    ) |>
+    dplyr::select(dataset, has_schema, ok, missing_cols, extra_cols)
+
+  readr::write_csv(summary, out_path)
+  summary
 }

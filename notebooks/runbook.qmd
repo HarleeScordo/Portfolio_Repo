@@ -1,0 +1,41 @@
+---
+title: "Data Intake Runbook"
+format: html
+execute:
+  echo: true
+  warning: false
+  message: true
+params:
+  sample_folder: "Sample_Sets"
+  output_catalog_path: "docs/DATA_CATALOG.md"
+---
+
+## Purpose
+
+This runbook is an interactive control panel for the project. It demonstrates:
+- ingestion of heterogeneous datasets
+- automated documentation generation (data catalog)
+- reproducible execution via shared scripts
+
+## Load project code
+
+```{r}
+source("R/utilities.R")
+check_prereqs()
+load_pkgs()
+
+source("R/01_ingest.R")
+source("R/03_document.R")
+
+## Validate Against Contracts
+
+```
+
+
+```{r}
+source("R/02_validate.R")
+
+validated <- validate_all(ingested, contracts_dir = "contracts")
+summary <- write_validation_summary(validated, "output/validation/validation_summary.csv")
+summary
+```
