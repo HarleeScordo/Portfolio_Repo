@@ -1,0 +1,11 @@
+dataset: date
+description: Reference date range table
+
+columns:
+  Start_Date:
+    type: date
+    required: true
+
+  End_Date:
+    type: date
+    required: true

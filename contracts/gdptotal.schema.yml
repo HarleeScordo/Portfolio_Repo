@@ -1,0 +1,15 @@
+dataset: gdptotal
+description: Country-year GDP totals
+
+columns:
+  country:
+    type: string
+    required: true
+
+  year:
+    type: integer
+    required: true
+
+  current GDP:
+    type: numeric
+    required: true
