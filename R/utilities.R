@@ -1,27 +1,16 @@
 ##Packages--
 
-install.packages("readr")
-install.packages("readxl")
-install.packages("dplyr")
-install.packages("stringr")
-install.packages("purrr")
-install.packages("tibble")
-install.packages("yaml")
+#Setup to run in terminal
+#sudo apt-get update
+#sudo apt-get install -y r-base r-base-dev
+#Rscript -e 'install.packages(c("readr","readxl","dplyr","stringr","purrr","tibble","yaml","knitr"), repos="https://cloud.r-project.org")'
 
-library("readr")
-library("readxl")
-library("dplyr")
-library("stringr")
-library("purrr")
-library("tibble")
-library("yaml")
-
-# R/run.R
-source("R/01_ingest.R")
-source("R/03_document.R")
-
-ingested <- ingest_folder("Sample_Sets")
-catalog <- build_catalog(ingested)
-
-write_catalog_md(catalog, "docs/DATA_CATALOG.md")
-print(catalog)
+suppressPackageStartupMessages({
+  library(readr)
+  library(readxl)
+  library(dplyr)
+  library(stringr)
+  library(purrr)
+  library(tibble)
+  library(yaml)
+})
