@@ -6,10 +6,11 @@
     "configurations": [
         {
             "type": "R-Debugger",
-            "name": "Launch R-Workspace",
-            "request": "launch",
-            "debugMode": "workspace",
-            "workingDirectory": "${workspaceFolder}"
+             "name": "Run pipeline (R/run.R)",
+             "request": "launch",
+             "debugMode": "file",
+             "workingDirectory": "${workspaceFolder}",
+             "file": "${workspaceFolder}/R/run.R"
         },
         {
             "type": "R-Debugger",
@@ -45,6 +46,11 @@
             "request": "attach",
             "name": "Attach to R process",
             "splitOverwrittenOutput": true
-        }
+        },
+        {
+  "r.languageServer.enabled": false,
+  "r.lsp.promptToInstall": false,
+  "r.lsp.useRenvLibPath": false
+}
     ]
 }
