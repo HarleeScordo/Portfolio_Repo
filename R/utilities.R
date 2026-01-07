@@ -1,5 +1,7 @@
 ## R/utilities.R
 
+##Packages and package install used globally
+
 required_pkgs <- c(
   "readr", 
   "readxl", 
@@ -43,3 +45,13 @@ load_pkgs <- function() {
 # Optional: simple logger utility
 log_info <- function(...) message("[INFO] ", paste0(..., collapse = ""))
 log_warn <- function(...) warning("[WARN] ", paste0(..., collapse = ""), call. = FALSE)
+
+##Helper functions to be used globally 
+
+normalize_dataset_name <- function(x) {
+  x <- tools::file_path_sans_ext(basename(x))
+  x <- tolower(x)
+  x <- gsub("[^a-z0-9]+", "_", x)
+  x <- gsub("^_+|_+$", "", x)
+  x
+}

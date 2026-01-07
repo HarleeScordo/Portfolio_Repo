@@ -13,6 +13,10 @@ infer_type <- function(x) {
   "string"
 }
 
+schema_path_for <- function(dataset_filename, contracts_dir = "contracts") {
+  base <- normalize_dataset_name(dataset_filename)
+  file.path(contracts_dir, paste0(base, ".schema.yml"))
+}
 
 validate_against_schema <- function(df, schema_path) {
   schema <- yaml::read_yaml(schema_path)
@@ -62,11 +66,17 @@ write_validation_summary <- function(validated_tbl, out_path = "output/validatio
 
   summary <- validated_tbl |>
     dplyr::mutate(
-      ok = purrr::map_lgl(validation, ~ isTRUE(.x$ok)),
-      missing_cols = purrr::map_chr(validation, ~ paste(.x$missing_cols, collapse = "; ")),
-      extra_cols   = purrr::map_chr(validation, ~ paste(.x$extra_cols, collapse = "; "))
+      validation_passed = purrr::map_lgl(validation, ~ isTRUE(.x$ok)),
+      missing_columns   = purrr::map_chr(validation, ~ paste(.x$missing_cols, collapse = "; ")),
+      unexpected_columns = purrr::map_chr(validation, ~ paste(.x$extra_cols, collapse = "; "))
     ) |>
-    dplyr::select(dataset, has_schema, ok, missing_cols, extra_cols)
+    dplyr::select(
+      dataset,
+      has_schema,
+      validation_passed,
+      missing_columns,
+      unexpected_columns
+    )
 
   readr::write_csv(summary, out_path)
   summary

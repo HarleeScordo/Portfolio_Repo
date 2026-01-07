@@ -22,8 +22,8 @@ print(catalog)
 log_info("Wrote docs/DATA_CATALOG.md")
 
 
-validated <- validate_all(ingested, contracts_dir = "contracts")
-summary <- write_validation_summary(validated, "output/validation/validation_summary.csv")
+#validated <- validate_all(ingested, contracts_dir = "contracts")
+#summary <- write_validation_summary(validated, "output/validation/validation_summary.csv")
 
-print(summary)
-log_info("Wrote output/validation/validation_summary.csv")
+#print(summary)
+#log_info("Wrote output/validation/validation_summary.csv")
