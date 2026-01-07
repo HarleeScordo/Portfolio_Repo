@@ -1,9 +1,4 @@
 # R/02_validate.R
-suppressPackageStartupMessages({
-  library(yaml)
-  library(dplyr)
-  library(purrr)
-})
 
 infer_type <- function(x) {
   if (inherits(x, "Date")) return("date")

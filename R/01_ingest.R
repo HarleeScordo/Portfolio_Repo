@@ -1,15 +1,4 @@
 # R/01_ingest.R
-install.packages(readr)
-install.packages(readxl)
-install.packages(dplyr)
-install.packages(stringr)
-install.packages(purrr)
-
-library(readr)
-library(readxl)
-library(dplyr)
-library(stringr)
-library(purrr)
 
 read_any <- function(path) {
   ext <- tolower(tools::file_ext(path))

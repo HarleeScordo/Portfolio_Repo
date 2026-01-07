@@ -1,9 +1,4 @@
 # R/03_document.R
-suppressPackageStartupMessages({
-  library(dplyr)
-  library(purrr)
-  library(tibble)
-})
 
 profile_dataset <- function(df) {
   tibble(
