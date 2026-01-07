@@ -46,11 +46,6 @@
             "request": "attach",
             "name": "Attach to R process",
             "splitOverwrittenOutput": true
-        },
-        {
-  "r.languageServer.enabled": false,
-  "r.lsp.promptToInstall": false,
-  "r.lsp.useRenvLibPath": false
-}
+        }
     ]
 }
