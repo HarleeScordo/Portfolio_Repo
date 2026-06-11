@@ -1,0 +1,15 @@
+dataset: energy_data
+description: Energy use per capita by country-year
+
+columns:
+  Country:
+    type: string
+    required: true
+
+  year:
+    type: integer
+    required: true
+
+  Energy use (kg of oil equivalent per capita):
+    type: numeric
+    required: true
