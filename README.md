@@ -1,21 +1,110 @@
-# Portfolio_Repo — Documented Data Intake & Validation Framework (R)
+# Documented Data Intake & Validation Framework (R)
 
 ## Overview
 
-This project demonstrates a **documentation-first, reproducible data intake framework** built in R.  
-It showcases how heterogeneous data sources can be ingested, documented, validated, and standardized for downstream analytics, reporting, or BI tools.
+This project demonstrates a documentation-first, contract-driven data intake framework designed to support governed analytics environments.
 
-The emphasis is **data governance, documentation quality, and reproducibility**, rather than exploratory analysis.
+The framework standardizes the ingestion, validation, documentation, and traceability of heterogeneous datasets while maintaining reproducibility and auditability. Rather than focusing on exploratory analysis, the project emphasizes architectural patterns commonly used in enterprise data platforms, including data contracts, automated validation, generated documentation, and version-controlled execution.
+
+The framework is designed to support analytics, reporting, ETL pipelines, and business intelligence workflows by ensuring that data quality issues are identified early and documented consistently.
+
+---
+
+## Business Problem
+
+Organizations frequently receive data from multiple sources and in multiple formats, often with inconsistent structures, undocumented schemas, and varying levels of quality.
+
+Common challenges include:
+
+* Manual onboarding of new datasets
+* Missing or inconsistent documentation
+* Undetected schema drift
+* Lack of reproducibility across environments
+* Limited traceability for audit and governance requirements
+* Data quality issues discovered late in downstream processes
+
+This framework addresses these challenges through a standardized intake architecture that combines automated documentation, schema enforcement, and validation reporting.
+
+---
+
+## Architecture Overview
+
+```text
+External Sources
+(CSV, Excel)
+        |
+        v
++------------------+
+| Ingestion Layer  |
++------------------+
+        |
+        v
++------------------+
+| Contract Layer   |
+| YAML Schemas     |
++------------------+
+        |
+        v
++------------------+
+| Validation Layer |
++------------------+
+        |
+        +----------------+
+        |                |
+        v                v
+
+Data Catalog     Validation Report
+(Markdown)          (CSV)
+
+        |
+        v
+
+Analytics / BI / ETL
+Consumers
+```
+
+---
+
+## Architectural Principles
+
+The framework was designed around the following principles:
+
+### Explicit Contracts Over Implicit Assumptions
+
+Dataset expectations are defined through version-controlled schema contracts rather than tribal knowledge or undocumented conventions.
+
+### Validation Before Consumption
+
+Datasets are validated prior to downstream use, allowing schema and quality issues to be surfaced early in the lifecycle.
+
+### Documentation as a Generated Artifact
+
+Documentation is automatically generated from source data, reducing documentation drift and improving transparency.
+
+### Reproducible Execution
+
+Dependency management and execution environments are controlled through renv to ensure consistent results across machines and environments.
+
+### Separation of Concerns
+
+Ingestion, validation, documentation, and execution logic are separated into distinct components to improve maintainability and extensibility.
+
+### Auditability and Traceability
+
+Validation outputs, schema definitions, and generated documentation provide a transparent record of data processing activities.
 
 ---
 
 ## Objectives
 
-- Standardize ingestion of mixed-format datasets (CSV, Excel)
-- Produce **human-readable documentation** (data catalog)
-- Enforce **machine-readable data contracts** (schema YAML)
-- Surface schema and quality issues early via validation outputs
-- Generate artifacts suitable for analytics pipelines and CI/CD workflows
+* Standardize ingestion of mixed-format datasets
+* Generate human-readable data documentation
+* Enforce machine-readable data contracts
+* Detect schema drift and data quality issues
+* Produce reusable validation artifacts
+* Support reproducible analytics workflows
+* Enable CI/CD-friendly execution patterns
+* Improve transparency and governance readiness
 
 ---
 
@@ -23,118 +112,178 @@ The emphasis is **data governance, documentation quality, and reproducibility**,
 
 ```text
 .
-├── Sample_Sets/                 # Raw sample datasets (CSV, XLSX)
-├── R/                           # Reusable, side-effect-free functions
+├── Sample_Sets/
+├── R/
 │   ├── utilities.R
 │   ├── 01_ingest.R
 │   ├── 02_validate.R
 │   └── 03_document.R
-├── scripts/                     # Executable entry points (CLI / CI)
-│   ├── setup.R                  # Install/restore dependencies (renv)
-│   ├── run.R                    # Generate documentation + validation artifacts
-│   └── test.R                   # Smoke test
-├── notebooks/                   # Interactive runbook ("GUI" execution)
+├── scripts/
+│   ├── setup.R
+│   ├── run.R
+│   └── test.R
+├── notebooks/
 │   └── runbook.qmd
-├── contracts/                   # Dataset schema definitions (*.schema.yml)
+├── contracts/
 ├── docs/
-│   ├── DATA_CATALOG.md          # Auto-generated data catalog (committed)
-│   ├── SETUP.md                 # Environment notes (Codespaces/Linux)
-│   └── decisions/               # Architecture/design decision records (ADRs)
+│   ├── DATA_CATALOG.md
+│   ├── SETUP.md
+│   └── decisions/
 ├── output/
 │   └── validation/
-│       └── validation_summary.csv  # Auto-generated validation output (committed)
-├── renv.lock                    # Reproducible dependency lockfile
+├── renv.lock
 └── README.md
+```
 
+---
 
-Included Sample Datasets
+## Key Design Decisions
 
-The Sample_Sets/ directory contains heterogeneous datasets used to demonstrate intake and documentation patterns, including:
+| Decision                   | Rationale                                             |
+| -------------------------- | ----------------------------------------------------- |
+| YAML Data Contracts        | Human-readable, version-controlled schema definitions |
+| Generated Data Catalogs    | Reduce documentation drift and improve transparency   |
+| Validation Reporting       | Surface issues before downstream consumption          |
+| Side-Effect-Free Functions | Improve maintainability and testability               |
+| ADR-Based Documentation    | Preserve architectural decisions and trade-offs       |
+| renv Dependency Management | Enable reproducible execution environments            |
+| Script-Based Entry Points  | Support automation and CI/CD workflows                |
 
-Vehicle sales data
+---
 
-CO₂ emissions data
+## Included Sample Datasets
 
-Energy consumption data
+The Sample_Sets directory contains representative datasets used to demonstrate intake, validation, and documentation workflows, including:
 
-GDP totals
+* Vehicle sales data
+* CO₂ emissions data
+* Energy consumption data
+* GDP totals
+* Population totals
+* Date reference tables
 
-Population totals
+These datasets are treated as raw source inputs and are not modified in place.
 
-Date reference tables
+---
 
-These datasets are treated as raw inputs and are not modified in place.
+## Generated Artifacts
 
-Examples of Work (Generated Artifacts)
+### Data Catalog
 
-This repository produces and commits key artifacts to demonstrate outputs clearly:
-
-Data Catalog: docs/DATA_CATALOG.md
-Summarizes datasets, shapes, and columns to support transparency and downstream use.
-
-Validation Summary: output/validation/validation_summary.csv
-Provides a dataset-by-dataset view of whether a schema exists and whether validation passed.
-
-These artifacts are generated by the pipeline and can be reproduced locally.
-
-Documentation Approach
-
-Documentation is separated into multiple layers:
-
-1) Data Catalog (Human-Readable)
-
-Generated at:
+Location:
 
 docs/DATA_CATALOG.md
 
-2) Data Contracts (Machine-Enforced)
+Purpose:
 
-Schemas are stored in:
+* Dataset inventory
+* Column documentation
+* Shape summaries
+* Transparency for downstream consumers
+
+### Validation Summary
+
+Location:
+
+output/validation/validation_summary.csv
+
+Purpose:
+
+* Validation status by dataset
+* Schema existence verification
+* Quality and compliance reporting
+
+---
+
+## Governance and Documentation Strategy
+
+Documentation is maintained across three complementary layers.
+
+### Human-Readable Documentation
+
+Generated Data Catalog:
+
+docs/DATA_CATALOG.md
+
+Provides discoverability and transparency for analysts, developers, and stakeholders.
+
+### Machine-Enforced Contracts
+
+Schema Definitions:
 
 contracts/*.schema.yml
 
-Validation is performed during pipeline execution and summarized at:
+Provide formal expectations for dataset structure and support automated validation.
 
-output/validation/validation_summary.csv
+### Architecture Decision Records
 
-3) Design Decisions
-
-Architecture and trade-offs are recorded as lightweight ADRs:
+Location:
 
 docs/decisions/
 
-This mirrors practices used in production and regulated environments.
+Capture design choices, trade-offs, assumptions, and future considerations.
 
-How to Run Locally
-1) Restore dependencies
+This approach mirrors documentation practices commonly used in enterprise and regulated environments.
 
-From the repo root:
+---
 
-Rscript scripts/setup.R
+## CI/CD Considerations
 
-2) Generate documentation + validation outputs
+The repository is structured to support automated execution and validation workflows.
+
+Primary non-interactive entry point:
+
+```bash
 Rscript scripts/run.R
+```
 
+This design enables integration with:
 
-Outputs:
+* GitHub Actions
+* Azure DevOps Pipelines
+* Scheduled validation workflows
+* Automated documentation generation processes
 
-docs/DATA_CATALOG.md
+---
 
-output/validation/validation_summary.csv
+## Technologies
 
-3) Run a smoke test
-Rscript scripts/test.R
+* R
+* tidyverse
+* YAML
+* renv
+* Git
+* GitHub
+* Azure DevOps Concepts
+* Quarto
+* Markdown
 
-Run Interactively (Runbook)
+---
 
-An interactive runbook is provided for “GUI-style” execution:
+## Future Enhancements
 
-notebooks/runbook.qmd
+Potential future extensions include:
 
-This runbook executes the same underlying pipeline functions and is intended for exploratory execution and demonstration.
+* Additional validation rule types
+* Data lineage generation
+* Metadata repository integration
+* Automated schema generation
+* Quality scoring metrics
+* Cloud-native execution patterns
+* Multi-source orchestration support
 
-Notes
+---
 
-If you are running in Codespaces or a locked-down environment, see docs/SETUP.md.
+## Demonstrated Competencies
 
-The repo is structured to be CI/CD-friendly: scripts/run.R is the non-interactive entry point.
+This project demonstrates experience with:
+
+* Data Architecture
+* Data Governance
+* Data Quality Engineering
+* ETL Framework Design
+* Documentation Automation
+* Metadata Management
+* Reproducible Analytics
+* CI/CD-Oriented Development
+* Technical Standards and Traceability
