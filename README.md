@@ -80,6 +80,14 @@ Analytics / BI / ETL
 Consumers
 ```
 
+### High-Level Architecture Diagram
+
+![High-Level Architecture](docs/architecture/high_level_architecture.png)
+
+### Processing Flow Diagram
+
+![Processing Flow](docs/architecture/processing_flow.png)
+
 ---
 
 ## Data Lineage
@@ -111,6 +119,37 @@ Consumers
 ```
 
 This lineage provides visibility into how source data moves through the intake process and where quality controls are applied before consumption.
+
+---
+
+## Architecture Documentation
+
+Architecture artifacts are maintained separately from implementation code to provide visibility into system design, processing behavior, and future evolution.
+
+### Current-State Architecture
+
+Located in:
+
+```text
+docs/architecture/
+```
+
+Artifacts include:
+
+* High-Level Architecture
+* Processing Flow
+* Data Lineage
+* Future-State Architecture
+
+### Design Documentation
+
+Located in:
+
+```text
+docs/decisions/
+```
+
+Architecture Decision Records (ADRs) document key design decisions, tradeoffs, and rationale.
 
 ---
 
@@ -161,45 +200,79 @@ Validation outputs, schema definitions, and generated documentation provide a tr
 
 ```text
 .
-├── Sample_Sets/
+├── .github/
+├── contracts/
+├── docs/
+│   ├── architecture/
+│   ├── decisions/
+│   ├── DATA_CATALOG.md
+│   └── SETUP.md
+├── notebooks/
+│   └── runbook.qmd
+├── output/
+│   └── validation/
 ├── R/
 │   ├── utilities.R
 │   ├── 01_ingest.R
 │   ├── 02_validate.R
 │   └── 03_document.R
+├── renv/
+├── sample_data/
 ├── scripts/
 │   ├── setup.R
 │   ├── run.R
 │   └── test.R
-├── notebooks/
-│   └── runbook.qmd
-├── contracts/
-├── docs/
-│   ├── DATA_CATALOG.md
-│   ├── SETUP.md
-│   ├── architecture/
-│   └── decisions/
-├── output/
-│   └── validation/
 ├── sql/
+├── .Rprofile
+├── README.md
 ├── renv.lock
-└── README.md
+└── Portfolio_Repo.Rproj
 ```
 
 ### Folder Responsibilities
 
-| Folder | Purpose |
-|---|---|
-| `R/` | Reusable framework functions for ingestion, validation, documentation, and shared utilities |
-| `scripts/` | Executable entry points for setup, pipeline execution, and smoke testing |
-| `contracts/` | Machine-readable schema contracts used to validate source datasets |
-| `docs/` | Architecture documentation, generated data catalog, setup notes, and ADRs |
-| `docs/architecture/` | Mermaid-based architecture and processing-flow documentation |
-| `docs/decisions/` | Architecture Decision Records documenting key design choices |
-| `output/validation/` | Generated validation artifacts |
-| `sample_data/` | Raw sample datasets used to demonstrate intake patterns |
-| `sql/` | Example SQL patterns for profiling, validation, and reporting consumers |
-| `.github/workflows/` | Optional automation for CI/CD-style validation |
+| Folder               | Purpose                                                                                     |
+| -------------------- | ------------------------------------------------------------------------------------------- |
+| `R/`                 | Reusable framework functions for ingestion, validation, documentation, and shared utilities |
+| `scripts/`           | Executable entry points for setup, pipeline execution, and smoke testing                    |
+| `notebooks/`         | Interactive execution and demonstration runbooks                                            |
+| `contracts/`         | Machine-readable schema contracts used to validate source datasets                          |
+| `docs/`              | Architecture documentation, generated data catalog, setup notes, and ADRs                   |
+| `docs/architecture/` | Architecture diagrams and processing-flow documentation                                     |
+| `docs/decisions/`    | Architecture Decision Records documenting key design choices                                |
+| `output/validation/` | Generated validation artifacts                                                              |
+| `sample_data/`       | Raw sample datasets used to demonstrate intake patterns                                     |
+| `sql/`               | Example SQL patterns for profiling, validation, and reporting consumers                     |
+| `.github/workflows/` | Optional automation for CI/CD-style validation                                              |
+| `renv/`              | Reproducible dependency management configuration                                            |
+
+---
+
+## Execution Modes
+
+The framework supports two execution patterns.
+
+### Automated Execution
+
+Primary entry point:
+
+```text
+scripts/run.R
+```
+
+This mode is intended for repeatable execution, automation, and CI/CD-style workflows.
+
+### Interactive Execution
+
+Interactive runbook:
+
+```text
+notebooks/runbook.qmd
+```
+
+This mode is intended for demonstrations, exploratory execution, and framework walkthroughs.
+
+Both execution paths leverage the same reusable framework components contained within the `R/` directory.
 
 ---
 
@@ -219,7 +292,7 @@ Validation outputs, schema definitions, and generated documentation provide a tr
 
 ## Included Sample Datasets
 
-The Sample_Sets directory contains representative datasets used to demonstrate intake, validation, and documentation workflows, including:
+The sample_data directory contains representative datasets used to demonstrate intake, validation, and documentation workflows, including:
 
 * Vehicle sales data
 * CO₂ emissions data
@@ -297,7 +370,7 @@ Location:
 docs/decisions/
 ```
 
-Capture design choices, trade-offs, assumptions, and future considerations.
+Capture design choices, tradeoffs, assumptions, and future considerations.
 
 This approach mirrors documentation practices commonly used in enterprise and regulated environments.
 
@@ -353,20 +426,54 @@ This design enables integration with:
 
 ---
 
-## Future State Architecture
+## Future-State Architecture
 
-Potential future enhancements include:
+The current implementation focuses on CSV and Excel-based ingestion. Future iterations could expand the architecture into a broader enterprise metadata and analytics platform.
 
-* Additional validation rule types
-* Data lineage generation
-* Metadata repository integration
-* Automated schema generation
-* Quality scoring metrics
-* Cloud-native execution patterns
-* Multi-source orchestration support
+```text
+CSV
+Excel
+API
+Database
+      |
+      v
++----------------------+
+| Data Intake Framework|
++----------------------+
+           |
+           v
++----------------------+
+| Contract Validation  |
++----------------------+
+           |
+           v
++----------------------+
+| Metadata Repository  |
++----------------------+
+           |
+           v
++----------------------+
+| Enterprise Catalog   |
++----------------------+
+           |
+           v
++----------------------+
+| Analytics Platform   |
++----------------------+
+```
+
+Potential future capabilities include:
+
 * API-based source ingestion
+* Relational database ingestion
+* Automated schema generation
+* Enterprise metadata repositories
+* Data lineage tracking
+* Data quality scoring
+* Cloud-native execution
 * Data warehouse integration
 * Automated catalog publishing
+* Multi-source orchestration
 
 ---
 
