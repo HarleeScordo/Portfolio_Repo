@@ -22,7 +22,7 @@ jobs:
 
       - name: Install required R packages
         run: |
-          Rscript -e 'install.packages(c("readr", "readxl", "dplyr", "purrr", "yaml"), repos = "https://cloud.r-project.org")'
+          Rscript -e 'install.packages(c("readr", "readxl", "dplyr", "purrr", "yaml", "stringr", "tidyr", "knitr"), repos = "https://cloud.r-project.org")'
 
       - name: Run smoke test
         run: |
