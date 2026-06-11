@@ -17,7 +17,7 @@ jobs:
 
       - name: Install required packages
         run: |
-          Rscript -e 'install.packages(c("tidyverse", "readxl", "yaml", "knitr", "rmarkdown"), repos = "https://cloud.r-project.org")'
+          Rscript -e 'install.packages(c("readr", "readxl", "dplyr", "purrr", "yaml", "knitr", "rmarkdown"), repos = "https://cloud.r-project.org")'
 
       - name: Run smoke test
         run: |
