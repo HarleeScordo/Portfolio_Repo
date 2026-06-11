@@ -14,3 +14,4 @@ renv/sandbox/
 # OS files
 .DS_Store
 Thumbs.db
+.Rproj.user
