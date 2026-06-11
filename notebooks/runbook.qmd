@@ -6,7 +6,7 @@ execute:
   warning: false
   message: true
 params:
-  sample_folder: "Sample_Sets"
+  sample_folder: "sample_data"
   output_catalog_path: "docs/DATA_CATALOG.md"
 ---
 

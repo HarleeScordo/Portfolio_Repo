@@ -6,7 +6,7 @@ load_pkgs()
 source("R/01_ingest.R")
 source("R/03_document.R")
 
-ingested <- ingest_folder("Sample_Sets")
+ingested <- ingest_folder("sample_data")
 stopifnot(nrow(ingested) > 0)
 
 catalog <- build_catalog(ingested)

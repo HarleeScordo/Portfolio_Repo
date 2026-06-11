@@ -13,7 +13,7 @@ source("R/02_validate.R")
 
 dir.create("docs", recursive = TRUE, showWarnings = FALSE)
 
-ingested <- ingest_folder("Sample_Sets")
+ingested <- ingest_folder("sample_data")
 catalog  <- build_catalog(ingested)
 
 write_catalog_md(catalog, "docs/DATA_CATALOG.md")

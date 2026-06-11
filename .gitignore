@@ -1,0 +1,17 @@
+# VS Code
+.vscode/
+
+# R files
+.Rhistory
+.RData
+.Ruserdata
+
+# renv local libraries
+renv/library/
+renv/staging/
+renv/sandbox/
+
+# OS files
+.DS_Store
+Thumbs.db
+.Rproj.user
